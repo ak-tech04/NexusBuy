@@ -1,0 +1,32 @@
+{
+  "$schema": "https://ui.shadcn.com/schema.json",
+  "style": "radix-nova",
+  "rsc": false,
+  "tsx": true,
+  "tailwind": {
+    "config": "",
+    "css": "src/index.css",
+    "baseColor": "neutral",
+    "cssVariables": true,
+    "prefix": ""
+  },
+  "iconLibrary": "lucide",
+  "rtl": false,
+  "menuColor": "default-translucent",
+  "menuAccent": "subtle",
+  "aliases": {
+    "components": "@/components",
+    "utils": "@/lib/utils",
+    "ui": "@/components/ui",
+    "lib": "@/lib",
+    "hooks": "@/hooks"
+  },
+  "registries": {
+    "@shadcnblocks": "https://shadcnblocks.com/r/{name}.json",
+    "@shadcn-studio": "https://shadcnstudio.com/r/{name}.json",
+    "@bundui": {
+      "url": "https://bundui.io/api/registry/{name}.json"
+    }
+    
+  }
+}
