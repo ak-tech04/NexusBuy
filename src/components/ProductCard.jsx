@@ -24,7 +24,7 @@ function ProductCard({product, handleAddToCart, handleToggleWishList}) {
   return (
     <Component
       product={product}
-    //   isDark={isDarkMode}
+      // isDark={isDarkMode}
       onAddToCart={handleAddToCart}
       onToggleWishlist={handleToggleWishList}
     />
