@@ -5,7 +5,7 @@ import { SearchIcon, ShoppingCart } from "lucide-react";
 
 function SearchComponent() {
   return (
-    <div className="flex flex-3">
+    <div className="flex flex-3 gap-2 items-center">
       <Input placeholder="Enter" />
       <Button>
         <SearchIcon />

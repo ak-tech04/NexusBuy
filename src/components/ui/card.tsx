@@ -34,8 +34,8 @@ const ProductCard = ({
 
   return (
     <div
-      className={`
-      max-w-sm mx-auto rounded-xl border shadow-lg hover:shadow-xl 
+      className={`max-w-sm 
+      lg:max-w-lg mx-auto rounded-xl border shadow-lg hover:shadow-xl 
       transition-all duration-300 overflow-hidden group transform hover:scale-[1.02]
       ${cardClasses}
     `}
@@ -71,7 +71,7 @@ const ProductCard = ({
         )} */}
 
         {/* Stock Badge */}
-        {product.Stock ==0 && (
+        {product.Stock == 0 && (
           <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
             <span className="bg-red-500 text-white px-4 py-2 rounded-full font-semibold">
               Out of Stock

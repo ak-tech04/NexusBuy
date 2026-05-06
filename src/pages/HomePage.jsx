@@ -1,4 +1,4 @@
-import  { useEffect, useEffectEvent, useId, useState } from "react";
+import { useEffect, useEffectEvent, useId, useState } from "react";
 
 import SearchComponent from "@/components/SearchComponent";
 import ProductCard from "@/components/ProductCard";
@@ -39,22 +39,19 @@ function HomePage() {
     setPageCount((prev) => (prev > 1 ? prev - 1 : prev));
   }
 
-  function registerUser() {
-    
-    
-  }
+  function registerUser() {}
   return (
     <div className=" w-full h-dvh   ">
       {/* <Navbar/> */}
-      <div className="flex  px-16 justify-between h-[8vh] border-1 items-center">
-        <div className="flex-1 flex ">
+      <div className="flex px-4   md:px-16  justify-between h-[8vh] border-1 items-center">
+        <div className=" hidden md:flex-1 md:flex ">
           {/* logo */}
           {/* logo */}
           <Building2></Building2>
         </div>
 
         <SearchComponent />
-        <div className="flex-1 flex justify-end gap-2">
+        <div className="hidden md:flex-1 md:flex md:justify-end md:gap-2">
           {/* right side  */}
           <Button>
             <ShoppingCart />
@@ -63,13 +60,14 @@ function HomePage() {
             Log in
             <LogIn></LogIn>
           </Button>
-          <Button onClick={registerUser}>Sign up 
+          <Button onClick={registerUser}>
+            Sign up
             <User></User>
           </Button>
         </div>
       </div>
 
-      <div className="grid grid-cols-4 gap-8 my-16 ">
+      <div className="grid grid-cols-1 place-items-center md:grid-cols-4  gap-8 my-16 ">
         {productData.products?.map((product) => {
           return <ProductCard key={product._id} product={product} />;
         })}
