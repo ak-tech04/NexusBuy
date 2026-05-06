@@ -28,11 +28,7 @@ This project operates completely independent of public cloud dependencies by dep
 
 The application leverages a deterministic four-stage lifecycle designed to simulate enterprise e-commerce pipelines:
 
-````
-```text?code_stdout&code_event_index=2
-README.md generated successfully.
 
-````
 
 [ Exploration ] ──( Browse Products )──> Guest Phase
 │
@@ -49,8 +45,7 @@ README.md generated successfully.
 3. **Stage 3: Selection (State-Locked Cart):** Token authentication separates shared public catalogs into user-specific sessions. Adding components (`POST /ecommerce/cart/{productId}`) isolates data pipelines per unique authentication token.
 4. **Stage 4: Conversion (The Order Transition):** Moving transactional cart payloads into immutable ledger arrays (`POST /ecommerce/orders`).
 
----
-
+````
 
 
 
@@ -98,30 +93,10 @@ _Note: Unlike the public shared instance, your local database architecture persi
 
 ---
 
-## 🖥️ Operational Dashboards & Real-Time Tracking
 
-To ensure explicit monitoring of operational requests, visual mapping, and storage validation, link these tools to your local instance loops:
 
-### 1. Unified Visual Container Manager (Portainer CE)
 
-Spin up Portainer to monitor resource telemetry (RAM/CPU spikes) and extract instant backend container stack stdout traces without standard CLI logging syntax:
-
-```bash
-docker volume create portainer_data
-docker run -d -p 8000:8000 -p 9443:9443 --name portainer --restart=always \
-  -v /var/run/docker.sock:/var/run/docker.sock \
-  -v portainer_data:/data \
-  portainer/portainer-ce:latest
-```
-
-Access via HTTPS: `https://localhost:9443` (Pass standard self-signed security alerts).
-
-### 2. Direct Database Records Inspections
-
-- **Tooling Option A (Standalone GUI):** Download and install **MongoDB Compass** via `.deb` packages, mapping the base connection address string directly to: `mongodb://localhost:27017`
-- **Tooling Option B (IDE Integration):** Install the official **MongoDB for VS Code** application extension directly to track active database schemas side-by-side with your React development environment.
-
-### 3. API Logging & Execution Audit
+### API Logging & Execution Audit
 
 Track standard API routes hitting the infrastructure directly inside your terminal workspace:
 
