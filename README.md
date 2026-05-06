@@ -51,31 +51,8 @@ README.md generated successfully.
 
 ---
 
-## 🛠️ Infrastructure Setup & Installation (Debian 13 Linux)
 
-### Prerequisites: Docker Setup Without Root Boundaries
-To ensure rapid deployment without constant administrative interrupt signals (`sudo`), execute the official repository installation and permission mapping sequence:
 
-```bash
-# 1. Inject Docker Official Encryption Keys and Setup Stable Repositories
-sudo apt update && sudo apt install -y ca-certificates curl
-sudo install -m 0755 -d /etc/apt/keyrings
-sudo curl -fsSL [https://download.docker.com/linux/debian/gpg](https://download.docker.com/linux/debian/gpg) -o /etc/apt/keyrings/docker.asc
-sudo chmod a+r /etc/apt/keyrings/docker.asc
-
-echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] [https://download.docker.com/linux/debian](https://download.docker.com/linux/debian) trixie stable" | \
-sudo tee /etc/apt/sources.list.d/docker.list
-
-# 2. Build Tooling Arrays
-sudo apt update && sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-
-# 3. Create Docker Sockets Access Window (Bypassing constant Password Prompts)
-sudo groupadd docker
-sudo usermod -aG docker $USER
-
-# 4. Refresh active user shell variables without full session teardown
-newgrp docker
-````
 
 ### Deploying the Backend Cluster
 
