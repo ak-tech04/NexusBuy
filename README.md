@@ -1,16 +1,229 @@
-# React + Vite
+# NexusBuy 🛒
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A professional, high-performance, full-stack e-commerce application built with a modern **React** frontend and powered by a completely containerized local backend ecosystem running on **Docker**.
 
-Currently, two official plugins are available:
+This project operates completely independent of public cloud dependencies by deploying an isolated sandbox environment using an open-source API gateway (**FreeAPI/ApiHub**), backed by **MongoDB** for persistent storage and **Redis** for caching, running natively on **Debian 13 (Trixie)**.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## 🏗️ Architecture & Technical Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Frontend Architecture
 
-## Expanding the ESLint configuration
+- **Framework:** React (Vite-powered for fast-refresh and optimized bundling)
+- **UI Architecture:** Styled using **Tailwind CSS** combined with atomic components from **shadcn/ui** (built on Radix UI primitives)
+- **Icons:** Highly consistent typography and vector assets using **Lucide React**
+- **State Management & Routing:** Native context and client hooks fetching from isolated local environment configurations
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Backend & Infrastructure (Containerized via Docker Compose)
+
+- **API Engine:** FreeAPI / ApiHub (Node.js & Express-based production-grade mock/real application endpoint cluster)
+- **Primary Database:** MongoDB
+- **Caching Layer:** Redis
+- **Operations & Management:** Portainer CE (Visual container orchestrated monitoring interface)
+
+---
+
+## 🔄 Core Application Workflow
+
+The application leverages a deterministic four-stage lifecycle designed to simulate enterprise e-commerce pipelines:
+
+````
+```text?code_stdout&code_event_index=2
+README.md generated successfully.
+
+````
+
+[ Exploration ] ──( Browse Products )──> Guest Phase
+│
+[ Identification ] ──( Login / Get JWT )──> Secured Session Established
+│
+[ Selection ] ──( Cart Operations )──> Token Attached to Request Headers
+│
+[ Conversion ] ──( Checkout/Orders )──> Cart Cleared / Transaction Logged
+
+````
+
+1. **Stage 1: Exploration (Guest Phase):** Completely public context. Users fetch unstructured catalogs (`GET /ecommerce/categories`) and full product grids (`GET /ecommerce/products`) without permissions.
+2. **Stage 2: Identification (Authentication Pivot):** Users register or log in. The backend issues a persistent JSON Web Token (JWT). The frontend captures this and injects it into every downstream request inside the headers (`Authorization: Bearer <Token>`).
+3. **Stage 3: Selection (State-Locked Cart):** Token authentication separates shared public catalogs into user-specific sessions. Adding components (`POST /ecommerce/cart/{productId}`) isolates data pipelines per unique authentication token.
+4. **Stage 4: Conversion (The Order Transition):** Moving transactional cart payloads into immutable ledger arrays (`POST /ecommerce/orders`).
+
+---
+
+## 🛠️ Infrastructure Setup & Installation (Debian 13 Linux)
+
+### Prerequisites: Docker Setup Without Root Boundaries
+To ensure rapid deployment without constant administrative interrupt signals (`sudo`), execute the official repository installation and permission mapping sequence:
+
+```bash
+# 1. Inject Docker Official Encryption Keys and Setup Stable Repositories
+sudo apt update && sudo apt install -y ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL [https://download.docker.com/linux/debian/gpg](https://download.docker.com/linux/debian/gpg) -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] [https://download.docker.com/linux/debian](https://download.docker.com/linux/debian) trixie stable" | \
+sudo tee /etc/apt/sources.list.d/docker.list
+
+# 2. Build Tooling Arrays
+sudo apt update && sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+# 3. Create Docker Sockets Access Window (Bypassing constant Password Prompts)
+sudo groupadd docker
+sudo usermod -aG docker $USER
+
+# 4. Refresh active user shell variables without full session teardown
+newgrp docker
+````
+
+### Deploying the Backend Cluster
+
+1. Clone the core API architecture engine repository:
+   ```bash
+   git clone [https://github.com/hiteshchoudhary/apihub.git](https://github.com/hiteshchoudhary/apihub.git)
+   cd apihub
+   ```
+2. Initialize default application parameters:
+   ```bash
+   cp .env.sample .env
+   ```
+3. Update the `docker-compose.yml` configurations to ensure automatic infrastructure recovery during computer boot sequences by adding persistent restart flags:
+   ```yaml
+   services:
+     apihub:
+       restart: unless-stopped
+       ports:
+         - "8080:8080"
+     mongodb:
+       restart: unless-stopped
+       ports:
+         - "27017:27017"
+     redis:
+       restart: unless-stopped
+   ```
+4. Fire up the backend stack globally in detached mode:
+   ```bash
+   docker compose up -d
+   ```
+
+---
+
+## 🧬 Database Hydration & Seeding
+
+By default, the deployed MongoDB instance will be empty. To prevent running individual manual definitions, execute the API's specialized seeding engine to instantly populate structural data definitions (Categories, Products, Stocks, Base Image URIs):
+
+```bash
+curl -X POST http://localhost:8080/api/v1/seed/ecommerce
+```
+
+_Note: Unlike the public shared instance, your local database architecture persists. Data will survive `docker stop`, system crashes, and reboots because configurations are saved directly to local storage disks through mounted Docker volumes. Data is only wiped if explicitly commanded using `docker compose down -v`._
+
+---
+
+## 🖥️ Operational Dashboards & Real-Time Tracking
+
+To ensure explicit monitoring of operational requests, visual mapping, and storage validation, link these tools to your local instance loops:
+
+### 1. Unified Visual Container Manager (Portainer CE)
+
+Spin up Portainer to monitor resource telemetry (RAM/CPU spikes) and extract instant backend container stack stdout traces without standard CLI logging syntax:
+
+```bash
+docker volume create portainer_data
+docker run -d -p 8000:8000 -p 9443:9443 --name portainer --restart=always \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  -v portainer_data:/data \
+  portainer/portainer-ce:latest
+```
+
+Access via HTTPS: `https://localhost:9443` (Pass standard self-signed security alerts).
+
+### 2. Direct Database Records Inspections
+
+- **Tooling Option A (Standalone GUI):** Download and install **MongoDB Compass** via `.deb` packages, mapping the base connection address string directly to: `mongodb://localhost:27017`
+- **Tooling Option B (IDE Integration):** Install the official **MongoDB for VS Code** application extension directly to track active database schemas side-by-side with your React development environment.
+
+### 3. API Logging & Execution Audit
+
+Track standard API routes hitting the infrastructure directly inside your terminal workspace:
+
+```bash
+docker compose logs -f apihub
+```
+
+---
+
+## ⚙️ Frontend Integration & Design Best Practices
+
+### Linking React to Local Hostings
+
+In your frontend `.env` configuration file, redirect the application framework to route calls locally instead of hitting public cloud clusters:
+
+```env
+VITE_API_BASE_URL=http://localhost:8080/api/v1
+```
+
+### Component Design Strategies (shadcn/ui Customizations)
+
+When dealing with pre-downloaded shacdn UI components requiring functional changes (e.g., embedding fixed Lucide button action icons cleanly), prioritize the **Direct Modification/Ownership Pattern** over loose component wrappers to enforce rigorous global design systems consistency:
+
+```tsx
+// Modifying @/components/ui/button.tsx directly to create architectural consistency
+export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  leftIcon?: React.ReactNode;
+}
+
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ className, leftIcon, children, ...props }, ref) => {
+    return (
+      <button
+        ref={ref}
+        {...props}
+        className={cn("inline-flex items-center...", className)}
+      >
+        {leftIcon && (
+          <span className="mr-2 inline-block alignment-slot">{leftIcon}</span>
+        )}
+        {children}
+      </button>
+    );
+  },
+);
+```
+
+---
+
+## ⚠️ Security Notice: Privilege Escalation Bounds
+
+By attaching your standard Linux user profile into the `/var/run/docker.sock` monitoring layer via the `docker` group, **you have granted your user account administrative root access without password challenges.** Any running script with container access could execute commands like:
+
+```bash
+docker run -v /:/host_system -it alpine chroot /host_system
+```
+
+This mounts your entire host file storage network directly into a shell environment, breaking out of standard containers. Keep this configuration strictly assigned to isolated, safe **local development systems**, and never expose it to production or unverified code components.
+"""
+
+with open("README.md", "w") as f:
+f.write(readme_content)
+
+print("README.md generated successfully.")
+
+```
+Your Markdown file is ready
+[file-tag: code-generated-file-0-1778096756897385872]
+
+Here is a breakdown of what has been crafted inside your new comprehensive `README.md` file based on everything we configured and analyzed during our session:
+
+### 📑 What’s Included in Your Project's `README.md`
+* **Architecture Mapping:** Clearly outlines your React frontend + Docker-Compose backend ecosystem (Node.js, MongoDB, Redis).
+* **The 4-Stage E-Commerce Workflow:** Explicitly breaks down how the app transitions data from **Exploration (Guest)** ➔ **Identification (Auth/JWT)** ➔ **Selection (Cart)** ➔ **Conversion (Orders)** so anyone checking out your repository understands the code flow.
+* **Debian 13 Native Setup:** Clean setup commands including the official repo configurations, setting up the `docker` user group shortcut, and configuring `restart: unless-stopped` policies.
+* **Data Persistence Instructions:** Clear instructions on data hydration via the specialized `/seed/ecommerce` endpoint so developers don't pull empty product listings.
+* **Monitoring Suite Layout:** Steps for tracking your environment using **Portainer CE**, **MongoDB Compass**, and live terminal logs (`docker compose logs -f`).
+* **React Integration & Architecture Tips:** Best practices for setting up your React `.env` files and utilizing the **Direct Ownership Pattern** to extend component props (like `leftIcon`) in **shadcn/ui**.
+* **Cybersecurity Insights:** A detailed security notice explaining the exact mechanics of the Unix socket privilege escalation breakout we discovered.
+
+This file serves as a high-quality, professional document that showcases both your core software engineering and DevOps infrastructure handling skills for your portfolio! You can find the file named `README.md` right in your workspace.
+```

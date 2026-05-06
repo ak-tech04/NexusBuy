@@ -1,4 +1,4 @@
-import React, { useEffect, useEffectEvent, useId, useState } from "react";
+import  { useEffect, useEffectEvent, useId, useState } from "react";
 
 import SearchComponent from "@/components/SearchComponent";
 import ProductCard from "@/components/ProductCard";
@@ -16,7 +16,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Building2, LogIn, ShoppingCart, User } from "lucide-react";
 
-function Home() {
+function HomePage() {
   const [productData, setProductData] = useState({});
   const [pageCount, setPageCount] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
@@ -39,6 +39,10 @@ function Home() {
     setPageCount((prev) => (prev > 1 ? prev - 1 : prev));
   }
 
+  function registerUser() {
+    
+    
+  }
   return (
     <div className=" w-full h-dvh   ">
       {/* <Navbar/> */}
@@ -59,7 +63,7 @@ function Home() {
             Log in
             <LogIn></LogIn>
           </Button>
-          <Button>Sign up 
+          <Button onClick={registerUser}>Sign up 
             <User></User>
           </Button>
         </div>
@@ -80,7 +84,7 @@ function Home() {
             {Array.from({ length: totalPages }, (_, i) => i + 1).map(
               (currentCount) => {
                 return (
-                  <PaginationItem>
+                  <PaginationItem key={currentCount}>
                     <PaginationLink
                       onClick={() => {
                         setPageCount(currentCount);
@@ -107,4 +111,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default HomePage;
