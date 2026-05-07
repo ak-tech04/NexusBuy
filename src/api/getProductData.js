@@ -11,8 +11,7 @@ async function getProductData(url) {
 
     return data;
   } catch (error) {
-    console.error(error);
-    
+    console.error("Failed To fetch data", error);
   }
 }
 

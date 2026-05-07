@@ -3,22 +3,35 @@ import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.jsx";
 
-import { createBrowserRouter } from "react-router";
+import { createBrowserRouter, Outlet, Route, Routes } from "react-router";
 import { RouterProvider } from "react-router/dom";
 import HomePage from "./pages/HomePage";
 import SignupPage from "./pages/SignupPage";
-
+import Layout from "./Layouts/Layout";
+import PageNotFound from "./pages/PageNotFound";
+import LoginPage from "./pages/LoginPage";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <HomePage />,
+    element: <Layout />,
 
     children: [
       {
-        path: "register",
-        element : <div>hello </div>
-        // element: <SignupPage />,
+        path: "",
+        element: <HomePage />,
+      },
+      {
+        path: "signup",
+        element: <SignupPage />,
+      },
+      {
+        path: "login",
+        element: <LoginPage />,
+      },
+      {
+        path: "*",
+        element: <PageNotFound />,
       },
     ],
   },
@@ -26,8 +39,6 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <RouterProvider router={router}>
-      <App />
-    </RouterProvider>
+    <RouterProvider router={router}>{/* <App /> */}</RouterProvider>
   </StrictMode>,
 );

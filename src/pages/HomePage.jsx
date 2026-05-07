@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/pagination";
 import { Button } from "@/components/ui/button";
 import { Building2, LogIn, ShoppingCart, User } from "lucide-react";
+import { Link } from "react-router";
 
 function HomePage() {
   const [productData, setProductData] = useState({});
@@ -39,16 +40,16 @@ function HomePage() {
     setPageCount((prev) => (prev > 1 ? prev - 1 : prev));
   }
 
-  function registerUser() {}
+  // function registerUser() {}
+
   return (
     <div className=" w-full h-dvh   ">
       {/* <Navbar/> */}
       <div className="flex px-4   md:px-16  justify-between h-[8vh] border-1 items-center">
-        <div className=" hidden md:flex-1 md:flex ">
-          {/* logo */}
+        <Link to="/" className=" hidden md:flex-1 md:flex ">
           {/* logo */}
           <Building2></Building2>
-        </div>
+        </Link>
 
         <SearchComponent />
         <div className="hidden md:flex-1 md:flex md:justify-end md:gap-2">
@@ -56,14 +57,18 @@ function HomePage() {
           <Button>
             <ShoppingCart />
           </Button>
-          <Button>
-            Log in
-            <LogIn></LogIn>
-          </Button>
-          <Button onClick={registerUser}>
-            Sign up
-            <User></User>
-          </Button>
+          <Link to="/login">
+            <Button>
+              Log in
+              <LogIn />
+            </Button>
+          </Link>
+          <Link to="/signup">
+            <Button>
+              Sign up
+              <User />
+            </Button>
+          </Link>
         </div>
       </div>
 
