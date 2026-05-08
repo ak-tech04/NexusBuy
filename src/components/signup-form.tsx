@@ -3,16 +3,19 @@ import { Button } from "@/components/ui/button"
 import {
   Field,
   FieldDescription,
+  FieldError,
   FieldGroup,
   FieldLabel,
   FieldSeparator,
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
+import { Link } from "react-router"
+
 
 export function SignupForm({
   className,
   ...props
-}: React.ComponentProps<"form">) {
+} : React.ComponentProps<"form">) {
   return (
     <form className={cn("flex flex-col gap-6", className)} {...props}>
       <FieldGroup>
@@ -23,13 +26,14 @@ export function SignupForm({
           </p>
         </div>
         <Field>
-          <FieldLabel htmlFor="name">Full Name</FieldLabel>
+          <FieldLabel htmlFor="userName">User Name </FieldLabel>
           <Input
-            id="name"
+            id="userName"
             type="text"
-            placeholder="John Doe"
+            placeholder="doejohn"
             required
             className="bg-background"
+            
           />
         </Field>
         <Field>
@@ -59,22 +63,24 @@ export function SignupForm({
           </FieldDescription>
         </Field>
         <Field>
-          <FieldLabel htmlFor="confirm-password">Confirm Password</FieldLabel>
+          <FieldLabel htmlFor="confirmPassword">Confirm Password</FieldLabel>
           <Input
-            id="confirm-password"
+            id="confirmPassword"
             type="password"
             required
             className="bg-background"
           />
           <FieldDescription>Please confirm your password.</FieldDescription>
+          
+          
         </Field>
         <Field>
           <Button type="submit">Create Account</Button>
         </Field>
-        <FieldSeparator>Or continue with</FieldSeparator>
+        {/* <FieldSeparator>Or continue with</FieldSeparator> */}
         <Field>
           <FieldDescription className="px-6 text-center">
-            Already have an account? <a href="#">Sign in</a>
+            Already have an account? <Link to='/login'>Sign in</Link>
           </FieldDescription>
         </Field>
       </FieldGroup>
