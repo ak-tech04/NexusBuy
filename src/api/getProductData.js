@@ -7,11 +7,12 @@ async function getProductData(url) {
   try {
     const response = await fetch(fullUrl, options);
     const data = await response.json();
-    console.log(data);
+    // console.log(data);
 
     return data;
   } catch (error) {
     console.error("Failed To fetch data", error);
+    return 
   }
 }
 

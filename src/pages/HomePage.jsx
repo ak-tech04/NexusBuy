@@ -14,17 +14,38 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { Button } from "@/components/ui/button";
-import { Building2, LogIn, ShoppingCart, User } from "lucide-react";
-import { Link } from "react-router";
+import { Building2, LogIn,  User } from "lucide-react";
+import { Link, useNavigate } from "react-router";
 
 function HomePage() {
   const [productData, setProductData] = useState({});
   const [pageCount, setPageCount] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
+  let navigate = useNavigate();
 
   useEffect(() => {
+    // Context updating is Async process => Take localStorage
+    const authenticated = JSON.parse(localStorage.getItem("isAuth"));
+    // console.log(authenticated);
+    
+
+    try {
+      if (authenticated) {
+        navigate("/home");
+        return;
+
+      }
+      else{
+        throw Error('No auth token')
+      }
+    } catch (error) {
+      navigate("/");
+      return;
+    }
+  }, []);
+  useEffect(() => {
     async function getData() {
-      let url = await `/ecommerce/products?page=${pageCount}&limit=12`;
+      let url = `/ecommerce/products?page=${pageCount}&limit=12`;
       let res = await getProductData(url);
       setProductData(res.data);
       setTotalPages(res.data.totalPages);
@@ -54,10 +75,10 @@ function HomePage() {
         <SearchComponent />
         <div className="hidden md:flex-1 md:flex md:justify-end md:gap-2">
           {/* right side  */}
-          <Button>
+          {/* <Button>
             <ShoppingCart />
-          </Button>
-          <Link to="/login">
+          </Button> */}
+          <Link to="/home">
             <Button>
               Log in
               <LogIn />

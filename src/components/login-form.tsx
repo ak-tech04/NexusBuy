@@ -8,6 +8,7 @@ import {
   FieldSeparator,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { Link } from "react-router";
 
 export function LoginForm({
   className,
@@ -23,11 +24,11 @@ export function LoginForm({
           </p>
         </div>
         <Field>
-          <FieldLabel htmlFor="email">Email</FieldLabel>
+          <FieldLabel htmlFor="userName">User Name </FieldLabel>
           <Input
-            id="email"
-            type="email"
-            placeholder="m@example.com"
+            id="userName"
+            type="text"
+            placeholder="doejohn"
             required
             className="bg-background"
           />
@@ -59,9 +60,9 @@ export function LoginForm({
           </Button> */}
           <FieldDescription className="text-center">
             Don&apos;t have an account?{" "}
-            <a href="#" className="underline underline-offset-4">
+            <Link to="/signup" className="underline underline-offset-4">
               Sign up
-            </a>
+            </Link>
           </FieldDescription>
         </Field>
       </FieldGroup>

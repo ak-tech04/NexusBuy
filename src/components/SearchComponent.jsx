@@ -3,14 +3,14 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { SearchIcon, ShoppingCart } from "lucide-react";
 
-function SearchComponent() {
+function SearchComponent({ className, ...props }) {
   return (
-    <div className="flex flex-3 gap-2 items-center">
-      <Input placeholder="Enter" />
-      <Button>
+    <form className={`flex flex-3 gap-2 items-center ${className}`} {...props}>
+      <Input name="searchItem" placeholder="Enter" />
+      <Button type="submit">
         <SearchIcon />
       </Button>
-    </div>
+    </form>
   );
 }
 

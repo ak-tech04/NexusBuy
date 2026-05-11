@@ -1,15 +1,19 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
-import App from "./App.jsx";
 
-import { createBrowserRouter, Outlet, Route, Routes } from "react-router";
+import { createBrowserRouter } from "react-router";
 import { RouterProvider } from "react-router/dom";
 import HomePage from "./pages/HomePage";
 import SignupPage from "./pages/SignupPage";
 import Layout from "./Layouts/Layout";
 import PageNotFound from "./pages/PageNotFound";
 import LoginPage from "./pages/LoginPage";
+import { AuthProvider } from "./contexts/AuthContext";
+import ProtectedRoute from "./routes/ProtectedRoute";
+import ProfilePage from "./pages/ProfilePage";
+import ProductCart from "./pages/ProductCart";
+import AuthHome from "./pages/AuthHome";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +34,25 @@ const router = createBrowserRouter([
         element: <LoginPage />,
       },
       {
+        // ProtectedRoutes
+        
+        element: <ProtectedRoute />,
+        children: [
+          {
+            path: "profile",
+            element: <ProfilePage />,
+          },
+          {
+            path: "productCart",
+            element: <ProductCart />,
+          },
+          {
+            path: "home",
+            element: <AuthHome />,
+          },
+        ],
+      },
+      {
         path: "*",
         element: <PageNotFound />,
       },
@@ -39,6 +62,8 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <RouterProvider router={router}>{/* <App /> */}</RouterProvider>
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
   </StrictMode>,
 );
