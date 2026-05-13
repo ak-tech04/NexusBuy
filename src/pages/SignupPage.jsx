@@ -42,7 +42,7 @@ export default function SignupPage() {
     setApiError("");
     setSuccessMessage("");
 
-    const role = "USER";
+    const role = "ADMIN";
     const body = JSON.stringify({
       email,
       password,

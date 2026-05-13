@@ -15,6 +15,7 @@ import ProfilePage from "./pages/ProfilePage";
 import AuthHome from "./pages/AuthHome";
 import { ThemeContextProvider as ThemeProvider } from "./contexts/ThemeContext";
 import ProductDetails from "./pages/ProductDetails";
+import CreateProductPage from "./pages/CreateProductPage";
 
 const router = createBrowserRouter([
   {
@@ -52,6 +53,10 @@ const router = createBrowserRouter([
             path: "product/:productId",
             element: <ProductDetails />,
           },
+          {
+            path: 'addproduct',
+            element : <CreateProductPage/>
+          }
         ],
       },
       {

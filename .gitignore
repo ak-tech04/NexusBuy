@@ -26,3 +26,4 @@ backend/*
 *.sw?
 .agents/*
 skills-lock.json
+.github/*

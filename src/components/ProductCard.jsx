@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Component from "@/components/ui/card";
+import Component from "@/components/ui/ProductCard";
 import { useTheme } from "@/contexts/ThemeContext";
 import ProductView from "./ProductView";
 import { Navigate, useNavigate } from "react-router";
