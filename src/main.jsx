@@ -12,8 +12,9 @@ import LoginPage from "./pages/LoginPage";
 import { AuthProvider } from "./contexts/AuthContext";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import ProfilePage from "./pages/ProfilePage";
-import ProductCart from "./pages/ProductCart";
 import AuthHome from "./pages/AuthHome";
+import { ThemeContextProvider as ThemeProvider } from "./contexts/ThemeContext";
+import ProductDetails from "./pages/ProductDetails";
 
 const router = createBrowserRouter([
   {
@@ -35,20 +36,21 @@ const router = createBrowserRouter([
       },
       {
         // ProtectedRoutes
-        
+
         element: <ProtectedRoute />,
         children: [
           {
             path: "profile",
             element: <ProfilePage />,
           },
-          {
-            path: "productCart",
-            element: <ProductCart />,
-          },
+
           {
             path: "home",
             element: <AuthHome />,
+          },
+          {
+            path: "product/:productId",
+            element: <ProductDetails />,
           },
         ],
       },
@@ -62,8 +64,10 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <AuthProvider>
-      <RouterProvider router={router} />
-    </AuthProvider>
+    <ThemeProvider>
+      <AuthProvider>
+        <RouterProvider router={router} />
+      </AuthProvider>
+    </ThemeProvider>
   </StrictMode>,
 );

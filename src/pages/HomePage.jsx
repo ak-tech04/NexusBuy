@@ -14,10 +14,13 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { Button } from "@/components/ui/button";
-import { Building2, LogIn,  User } from "lucide-react";
+import { Building2, LogIn, Moon, Sun, User } from "lucide-react";
 import { Link, useNavigate } from "react-router";
+import { useTheme } from "@/contexts/ThemeContext";
+import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
 
 function HomePage() {
+  const { theme, isDark, toggleTheme } = useTheme();
   const [productData, setProductData] = useState({});
   const [pageCount, setPageCount] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
@@ -27,16 +30,13 @@ function HomePage() {
     // Context updating is Async process => Take localStorage
     const authenticated = JSON.parse(localStorage.getItem("isAuth"));
     // console.log(authenticated);
-    
 
     try {
       if (authenticated) {
         navigate("/home");
         return;
-
-      }
-      else{
-        throw Error('No auth token')
+      } else {
+        throw Error("No auth token");
       }
     } catch (error) {
       navigate("/");
@@ -90,6 +90,10 @@ function HomePage() {
               <User />
             </Button>
           </Link>
+          {/* <AnimatedThemeToggler onClick={toggleTheme} variant="square" /> */}
+          <Button className="border" onClick={toggleTheme}>
+            {theme == "light" ? <Sun /> : <Moon />}
+          </Button>
         </div>
       </div>
 

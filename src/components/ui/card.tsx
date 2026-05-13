@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import { Heart, ShoppingCart, Star, Sun, Moon } from "lucide-react";
+import React from "react";
+import { Heart, ShoppingCart, Star } from "lucide-react";
 
 const ProductCard = ({
   product,
-  isDark = true,
-  // onAddToCart,
+  isDark,
+  onAddToCart,
   // onToggleWishlist
 }) => {
   // const [isWishlisted, setIsWishlisted] = useState(false);
@@ -14,28 +14,32 @@ const ProductCard = ({
   //   onToggleWishlist?.(product.id, !isWishlisted);
   // };
 
-  // const handleAddToCart = () => {
-  //   onAddToCart?.(product);
-  // };
+  const handleAddToCart = () => {
+    onAddToCart?.(product);
+  };
 
-  // Theme classes
+  // Theme classes - Using shadcn theme variables
   const cardClasses = isDark
-    ? "bg-gray-950 text-white border-gray-700"
-    : "bg-white text-gray-900 border-gray-200";
+    ? "bg-card text-card-foreground border-border"
+    : "bg-background text-foreground border-border";
 
-  const textSecondary = isDark ? "text-gray-300" : "text-gray-600";
-  const textMuted = isDark ? "text-gray-400" : "text-gray-500";
+  const textSecondary = isDark
+    ? "text-muted-foreground"
+    : "text-muted-foreground";
+  const textMuted = isDark ? "text-muted" : "text-muted";
   const buttonPrimary = isDark
-    ? "bg-blue-600 hover:bg-blue-700"
-    : "bg-blue-500 hover:bg-blue-600";
+    ? "bg-primary hover:bg-primary/90"
+    : "bg-primary hover:bg-primary/90";
   const wishlistButton = isDark
-    ? "bg-gray-700 hover:bg-gray-600"
-    : "bg-white hover:bg-gray-50";
+    ? "bg-secondary hover:bg-secondary/80"
+    : "bg-secondary hover:bg-secondary/80";
+
+  // const outOfStock = "opacity-100 cursor-not-allowed bg-muted";
 
   return (
     <div
       className={`max-w-sm 
-      lg:max-w-lg mx-auto rounded-xl border shadow-lg hover:shadow-xl 
+      lg:max-w-lg mx-auto rounded-lg border shadow-lg hover:shadow-xl 
       transition-all duration-300 overflow-hidden group transform hover:scale-[1.02]
       ${cardClasses}
     `}
@@ -53,7 +57,7 @@ const ProductCard = ({
           onClick={handleWishlistClick}
           className={`
             absolute top-4 right-4 p-2.5 rounded-full transition-all duration-200 
-            ${wishlistButton} ${isWishlisted ? 'text-red-500' : textMuted} 
+            ${wishlistButton} ${isWishlisted ? 'text-destructive' : textMuted} 
             hover:scale-110 shadow-lg backdrop-blur-sm
           `}
         >
@@ -65,15 +69,15 @@ const ProductCard = ({
 
         {/* Sale Badge */}
         {/* {product.salePrice && (
-          <div className="absolute top-4 left-4 bg-red-500 text-white px-3 py-1.5 rounded-full text-sm font-bold shadow-lg">
+          <div className="absolute top-4 left-4 bg-destructive text-destructive-foreground px-3 py-1.5 rounded-full text-sm font-bold shadow-lg">
             -{Math.round(((product.price - product.salePrice) / product.price) * 100)}%
           </div>
         )} */}
 
         {/* Stock Badge */}
-        {product.Stock == 0 && (
-          <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-            <span className="bg-red-500 text-white px-4 py-2 rounded-full font-semibold">
+        {product.stock == 0 && (
+          <div className="absolute inset-0 opacity-50  flex items-center justify-center">
+            <span className="bg-destructive text-destructive-foreground px-4 py-2 rounded-full font-semibold">
               Out of Stock
             </span>
           </div>
@@ -103,7 +107,7 @@ const ProductCard = ({
                 size={16}
                 className={`${
                   i < Math.floor(product.rating)
-                    ? "text-yellow-400 fill-current"
+                    ? "text-accent fill-current"
                     : textMuted
                 }`}
               />
@@ -119,7 +123,7 @@ const ProductCard = ({
           <div className="flex items-baseline space-x-2">
             {product.salePrice ? (
               <>
-                <span className="text-2xl font-bold text-red-500">
+                <span className="text-2xl font-bold text-destructive">
                   ${product.salePrice}
                 </span>
                 <span className={`text-lg line-through ${textMuted}`}>
@@ -132,28 +136,25 @@ const ProductCard = ({
           </div>
 
           {product.stock > 0 && (
-            <span className="text-sm text-green-500 font-semibold bg-green-100 dark:bg-green-900 px-2 py-1 rounded-full">
+            <span className="text-sm text-accent-foreground font-semibold bg-accent px-2 py-1 rounded-full">
               ✓ In Stock
             </span>
           )}
         </div>
 
         {/* Add to Cart Button */}
-        {/* <button
+        <button
           onClick={handleAddToCart}
-          disabled={product.stock ==0}
+          disabled={product.stock == 0}
           className={`
-            w-full py-3.5 px-6 rounded-xl font-semibold transition-all duration-200 
-            flex items-center justify-center space-x-2 text-white
-            ${product.inStock
-              ? `${buttonPrimary} hover:shadow-lg active:scale-95 transform`
-              : `${isDark ? 'bg-gray-700 text-gray-500' : 'bg-gray-100 text-gray-400'} cursor-not-allowed`
-            }
+            w-full py-3.5 px-6 rounded-lg font-semibold transition-all duration-200 
+            flex items-center justify-center space-x-2 text-primary-foreground
+            ${product.stock > 0 ? `${buttonPrimary} ` : ` bg-primary  cursor-not-allowed `}
           `}
         >
           <ShoppingCart size={20} />
-          <span>{product.inStock ? 'Add to Cart' : 'Out of Stock'}</span>
-        </button> */}
+          <span>{product.stock > 0 ? "Add to Cart" : "Out of Stock"}</span>
+        </button>
       </div>
     </div>
   );
@@ -189,16 +190,16 @@ const ProductCard = ({
 
 //   return (
 //     <div className={`w-full min-h-screen transition-colors duration-300 ${
-//       isDarkMode ? 'bg-gray-900' : 'bg-gray-50'
+//       isDarkMode ? 'bg-background' : 'bg-background'
 //     }`}>
 //       {/* Header with Dark Mode Toggle
 //       <div className={`sticky top-0 z-10 backdrop-blur-md transition-colors duration-300 ${
-//         isDarkMode ? 'bg-gray-800/90 text-white border-gray-700' : 'bg-white/90 text-gray-900 border-gray-200'
+//         isDarkMode ? 'bg-card/90 text-card-foreground border-border' : 'bg-card/90 text-card-foreground border-border'
 //       } border-b`}>
 //         <div className="max-w-4xl mx-auto px-4 py-4 flex justify-between items-center">
 //           <div>
 //             <h1 className="text-2xl font-bold">ShopMart</h1>
-//             <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+//             <p className={`text-sm ${isDarkMode ? 'text-muted-foreground' : 'text-muted-foreground'}`}>
 //               Premium Products
 //             </p>
 //           </div>
@@ -207,8 +208,8 @@ const ProductCard = ({
 //             onClick={toggleDarkMode}
 //             className={`p-3 rounded-full transition-all duration-200 ${
 //               isDarkMode
-//                 ? 'bg-gray-700 hover:bg-gray-600 text-yellow-400'
-//                 : 'bg-gray-100 hover:bg-gray-200 text-gray-600'
+//                 ? 'bg-secondary hover:bg-secondary/80 text-accent'
+//                 : 'bg-secondary hover:bg-secondary/80 text-accent'
 //             } hover:scale-110`}
 //           >
 //             {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}  const [isDarkMode, setIsDarkMode] = useState(false);
@@ -230,7 +231,7 @@ const ProductCard = ({
 
 //         {/* Demo Info */}
 //         {/* <div className={`mt-12 text-center ${
-//           isDarkMode ? 'text-gray-400' : 'text-gray-600'
+//           isDarkMode ? 'text-muted-foreground' : 'text-muted-foreground'
 //         }`}>
 //           <p className="text-sm">
 //             Toggle the theme and try the wishlist & cart buttons!

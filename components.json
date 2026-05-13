@@ -26,7 +26,7 @@
     "@shadcn-studio": "https://shadcnstudio.com/r/{name}.json",
     "@bundui": {
       "url": "https://bundui.io/api/registry/{name}.json"
-    }
-    
+    },
+    "@magicui": "https://magicui.design/r/{name}"
   }
 }

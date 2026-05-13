@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import Component from "@/components/ui/card";
+import { useTheme } from "@/contexts/ThemeContext";
+import ProductView from "./ProductView";
+import { Navigate, useNavigate } from "react-router";
 
 // const product = {
 //   id: 1,
@@ -13,21 +16,26 @@ import Component from "@/components/ui/card";
 //   reviews: 128,
 //   inStock: true,
 // };
-// const handleAddToCart = (product) => {
-//   console.log(product);
-// };
 // const handleToggleWishList = (productId, isWishListed) => {
 //   console.log(productId, isWishListed);
 // };
-function ProductCard({product, handleAddToCart, handleToggleWishList}) {
-//   const [isDarkMode, setIsDarkMode] = useState(false);
+function ProductCard({ product, handleAddToCart, handleToggleWishList }) {
+  const { isDark } = useTheme();
+  const navigate = useNavigate();
+
+  const handleProductClick = () => {
+    navigate(`/product/${product._id}`);
+  };
+
   return (
-    <Component
-      product={product}
-      // isDark={isDarkMode}
-      onAddToCart={handleAddToCart}
-      onToggleWishlist={handleToggleWishList}
-    />
+    <div onClick={handleProductClick}>
+      <Component
+        product={product}
+        isDark={isDark}
+        onAddToCart={handleAddToCart}
+        // onToggleWishlist={handleToggleWishList}
+      />
+    </div>
   );
 }
 

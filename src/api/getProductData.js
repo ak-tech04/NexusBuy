@@ -1,4 +1,4 @@
-async function getProductData(url) {
+async function fetchProductDetails(url) {
   const baseUrl = import.meta.env.VITE_API_URL;
 
   const fullUrl = baseUrl + url;
@@ -16,4 +16,4 @@ async function getProductData(url) {
   }
 }
 
-export { getProductData };
+export { fetchProductDetails as getProductData };
