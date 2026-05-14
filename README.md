@@ -116,33 +116,5 @@ In your frontend `.env` configuration file, redirect the application framework t
 VITE_API_BASE_URL=http://localhost:8080/api/v1
 ```
 
-### Component Design Strategies (shadcn/ui Customizations)
-
-When dealing with pre-downloaded shacdn UI components requiring functional changes (e.g., embedding fixed Lucide button action icons cleanly), prioritize the **Direct Modification/Ownership Pattern** over loose component wrappers to enforce rigorous global design systems consistency:
-
-```tsx
-// Modifying @/components/ui/button.tsx directly to create architectural consistency
-export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  leftIcon?: React.ReactNode;
-}
-
-const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, leftIcon, children, ...props }, ref) => {
-    return (
-      <button
-        ref={ref}
-        {...props}
-        className={cn("inline-flex items-center...", className)}
-      >
-        {leftIcon && (
-          <span className="mr-2 inline-block alignment-slot">{leftIcon}</span>
-        )}
-        {children}
-      </button>
-    );
-  },
-);
-```
-
 ---
 
