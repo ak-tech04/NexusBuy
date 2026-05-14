@@ -7,9 +7,9 @@ import { useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
 
 export default function LoginPage() {
-  const [validationError, setValidationError] = useState(""); // ✅ Form validation (passwords match, etc)
-  const [apiError, setApiError] = useState(""); // ✅ API/Network errors
-  const [successMessage, setSuccessMessage] = useState(""); // ✅ Success/API response message
+  const [validationError, setValidationError] = useState("");
+  const [apiError, setApiError] = useState(""); 
+  const [successMessage, setSuccessMessage] = useState(""); 
 
   const navigate = useNavigate();
   const auth = useAuth();

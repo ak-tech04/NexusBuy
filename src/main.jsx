@@ -16,6 +16,11 @@ import AuthHome from "./pages/AuthHome";
 import { ThemeContextProvider as ThemeProvider } from "./contexts/ThemeContext";
 import ProductDetails from "./pages/ProductDetails";
 import CreateProductPage from "./pages/CreateProductPage";
+import ProductNotFound from "./pages/ProductNotFound";
+import { CartProvider } from "./contexts/CartContext";
+import ShoppingCart from "./pages/ShoppingCart";
+
+
 
 const router = createBrowserRouter([
   {
@@ -54,8 +59,19 @@ const router = createBrowserRouter([
             element: <ProductDetails />,
           },
           {
-            path: 'addproduct',
-            element : <CreateProductPage/>
+            path: "addproduct",
+            element: <CreateProductPage />,
+          },
+          {
+            path: "product-not-found",
+            element: <ProductNotFound />,
+          },
+          {
+            path : 'shoppingCart',
+
+            element : <ShoppingCart/>
+
+            
           }
         ],
       },
@@ -70,9 +86,11 @@ const router = createBrowserRouter([
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <ThemeProvider>
-      <AuthProvider>
-        <RouterProvider router={router} />
-      </AuthProvider>
+      <CartProvider>
+        <AuthProvider>
+          <RouterProvider router={router} />
+        </AuthProvider>
+      </CartProvider>
     </ThemeProvider>
   </StrictMode>,
 );

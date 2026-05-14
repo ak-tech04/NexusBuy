@@ -4,9 +4,9 @@ import { Link } from "react-router";
 import { useState } from "react";
 
 export default function SignupPage() {
-  const [validationError, setValidationError] = useState(""); // ✅ Form validation (passwords match, etc)
-  const [apiError, setApiError] = useState(""); // ✅ API/Network errors
-  const [successMessage, setSuccessMessage] = useState(""); // ✅ Success/API response message
+  const [validationError, setValidationError] = useState(""); 
+  const [apiError, setApiError] = useState(""); 
+  const [successMessage, setSuccessMessage] = useState(""); 
 
   function handleSubmit(event) {
     event.preventDefault();

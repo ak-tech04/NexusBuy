@@ -5,12 +5,8 @@ function ProtectedRoute() {
   const auth = useAuth();
 
   const isAuthenticated = auth.isAuth;
-  // console.log(isAuthenticated);
-
-  // console.log(auth);
 
   const loading = auth.loading;
-  // console.log(loading);
 
   if (loading) {
     return (

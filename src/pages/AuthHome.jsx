@@ -26,6 +26,7 @@ import {
 import { Link, useNavigate } from "react-router";
 import { useAuth } from "@/hooks/useAuth";
 import { useTheme } from "@/contexts/ThemeContext";
+import { useCart } from "@/contexts/CartContext";
 
 function AuthHome() {
   const { theme, isDark, toggleTheme } = useTheme();
@@ -36,7 +37,7 @@ function AuthHome() {
   const [isPaginationActive, setIsPaginationActive] = useState(false);
   const [renderHome, setRenderHome] = useState(false);
   let navigate = useNavigate();
-
+ const productCart = useCart();
   const auth = useAuth();
 
   useEffect(() => {
@@ -91,7 +92,9 @@ function AuthHome() {
   function viewProduct(product) {
     console.log(product);
   }
-
+  function handleAddToCart(productId) {
+    productCart.addProductToCart(productId);
+  }
   return (
     <div className=" w-full h-dvh   ">
       {/* <Navbar/> */}
@@ -108,7 +111,7 @@ function AuthHome() {
         <SearchComponent onSubmit={handleSearch} />
         <div className="hidden md:flex-1 md:flex md:justify-end md:gap-1">
           {/* right side  */}
-          <Link to="/productCart">
+          <Link to="/shoppingCart">
             <Button>
               <ShoppingCart />
             </Button>
@@ -138,7 +141,7 @@ function AuthHome() {
 
       <div className="grid grid-cols-1 place-items-center md:grid-cols-4  gap-8 my-16 ">
         {availableProducts.map((product) => {
-          return <ProductCard key={product._id} product={product} />;
+          return <ProductCard key={product._id} product={product} addToCart={handleAddToCart} />;
         })}
       </div>
       <div className="pb-8">

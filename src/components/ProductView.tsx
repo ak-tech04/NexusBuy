@@ -2,7 +2,7 @@ import { useState } from "react";
 import { ChevronLeft, ChevronRight, ShoppingCart, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-const ProductView = ({ product }) => {
+const ProductView = ({ product, addToCart }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isWishlisted, setIsWishlisted] = useState(false);
 
@@ -25,8 +25,9 @@ const ProductView = ({ product }) => {
   };
 
   const handleAddToCart = () => {
-    console.log("Added to cart:", product.name);
+    addToCart(product._id)
     // Add your cart logic here
+
   };
 
   const handleToggleWishlist = () => {
